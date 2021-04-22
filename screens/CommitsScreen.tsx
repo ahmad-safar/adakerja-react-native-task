@@ -91,7 +91,7 @@ export default function CommitsScreen({ route, setUser }: Props) {
   return (
     <SafeAreaView>
       <FlatList
-        style={{ marginTop: 5 }}
+        style={{ paddingTop: 5 }}
         data={commits as CommitResponse[]}
         renderItem={renderItem}
         keyExtractor={(commit) => commit.node_id}

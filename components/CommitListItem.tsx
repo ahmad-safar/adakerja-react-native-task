@@ -13,7 +13,7 @@ export default function CommitListItem({ data }: Props) {
       </Text>
       <View style={styles.container2}>
         <Image
-          style={{ width: 30, height: 30, borderRadius: 10, marginRight: 5 }}
+          style={{ width: 30, height: 30, borderRadius: 10, marginRight: 10 }}
           source={
             data.author
               ? {

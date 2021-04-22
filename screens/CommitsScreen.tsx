@@ -33,6 +33,8 @@ export default function CommitsScreen({ route, setUser }: Props) {
   )
 
   async function getCommits() {
+    if (reachLastPage) return
+
     const getRepo = await githubApi.get(
       `/repos/${repo}/commits?page=${page}&per_page=20`
     )

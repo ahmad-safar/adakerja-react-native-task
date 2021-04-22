@@ -48,9 +48,10 @@ export default function CommitsScreen({ route, setUser }: Props) {
       if ((res as CommitResponse[]).length == 0) {
         setReachLastPage(true)
       }
+    } else if ((res as { message: string }).message == 'Not Found') {
+      setResMessage('Repository Not Found')
     } else {
-      if ((res as { message: string }).message == 'Not Found')
-        setResMessage('Repository Not Found')
+      setResMessage('Something went wrong')
     }
     setLoading(false)
   }

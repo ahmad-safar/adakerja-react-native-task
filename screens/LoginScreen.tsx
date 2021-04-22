@@ -4,7 +4,9 @@ import {
   AuthSessionResult,
 } from 'expo-auth-session'
 import React from 'react'
-import { Button, StyleSheet, View } from 'react-native'
+import { Button, StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import Loading from '../components/Loading'
 
 type Props = {
   loading: boolean
@@ -21,17 +23,19 @@ export default function Login({
   request,
   promptAsync,
 }: Props) {
+  if (loading) return <Loading />
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Button
         disabled={!request}
-        title={!loading ? 'Login with Github' : 'Logging in...'}
+        title="Login with Github"
         onPress={() => {
           promptAsync()
           setLoading(true)
         }}
       />
-    </View>
+    </SafeAreaView>
   )
 }
 

@@ -9,10 +9,9 @@ import {
 import { StatusBar } from 'expo-status-bar'
 import * as WebBrowser from 'expo-web-browser'
 import React, { useState } from 'react'
-import { Alert, Platform, ToastAndroid } from 'react-native'
-import 'react-native-gesture-handler'
 import githubApi from './api/githubApi'
 import { CommitsScreen, HomeScreen, LoginScreen } from './screens'
+import { notifyMessage } from './utils'
 
 WebBrowser.maybeCompleteAuthSession()
 
@@ -35,7 +34,6 @@ const config = {
 
 export default function App() {
   const [loading, setLoading] = useState(false)
-  const [accessToken, setAccessToken] = useState('')
   const [user, setUser] = useState<User | null>()
   const [request, response, promptAsync] = useAuthRequest(
     {
@@ -63,10 +61,9 @@ export default function App() {
           discovery
         )
 
-        const data = await githubApi.get(tokenRes.accessToken, '/user')
+        const data = await githubApi.getWithAuth(tokenRes.accessToken, '/user')
         const userData: User = await data.json()
 
-        setAccessToken(tokenRes.accessToken)
         setUser(userData)
         setLoading(false)
       }
@@ -98,26 +95,21 @@ export default function App() {
         ) : (
           <>
             <Stack.Screen name="Home">
-              {(props) => (
-                <HomeScreen
-                  {...props}
-                  setUser={setUser}
-                  setAccessToken={setAccessToken}
-                />
+              {(props) => <HomeScreen {...props} setUser={setUser} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Commits"
+              options={({ route }: CommitsScreenRouteProps) => ({
+                title: route.params?.repo,
+              })}
+            >
+              {(props: CommitsScreenProps) => (
+                <CommitsScreen {...props} setUser={setUser} />
               )}
             </Stack.Screen>
-            <Stack.Screen name="Commits" component={CommitsScreen} />
           </>
         )}
       </Stack.Navigator>
     </NavigationContainer>
   )
-}
-
-function notifyMessage(msg: string) {
-  if (Platform.OS === 'android') {
-    ToastAndroid.show(msg, ToastAndroid.SHORT)
-  } else {
-    Alert.alert(msg)
-  }
 }

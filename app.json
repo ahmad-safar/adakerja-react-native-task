@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "adakerja-react-native-test",
-    "slug": "adakerja-react-native-test",
+    "name": "adakerja-react-native-task",
+    "slug": "adakerja-react-native-task",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

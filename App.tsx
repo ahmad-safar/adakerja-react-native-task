@@ -17,19 +17,21 @@ WebBrowser.maybeCompleteAuthSession()
 
 const Stack = createStackNavigator()
 
-// Endpoint
-const discovery: DiscoveryDocument = {
-  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
-  tokenEndpoint: 'https://github.com/login/oauth/access_token',
-  revocationEndpoint:
-    'https://github.com/settings/connections/applications/43697642f0687bc9b744',
-}
-
+// TODO: this should use Environment Variables
+// For test purposes only:
 const config = {
   clientId: '43697642f0687bc9b744',
   clientSecret: 'bb2cc8b3b8ec952f4fc1574f9de1ba2e21d7c0ec',
   scopes: [],
   redirectUri: makeRedirectUri({ path: 'redirect', preferLocalhost: true }),
+}
+
+// Endpoint
+const discovery: DiscoveryDocument = {
+  authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+  tokenEndpoint: 'https://github.com/login/oauth/access_token',
+  revocationEndpoint:
+    'https://github.com/settings/connections/applications/' + config.clientId,
 }
 
 export default function App() {
@@ -49,7 +51,7 @@ export default function App() {
       const { code } = response.params
 
       async function fetchUser() {
-        // this should be performed in a server and not here in the application.
+        // TODO: this should be performed in a server and not here in the application.
         // For test purposes only:
         const tokenRes = await exchangeCodeAsync(
           {
